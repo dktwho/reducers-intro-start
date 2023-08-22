@@ -1,8 +1,9 @@
-import React, {useReducer, useState} from 'react';
+import React, {useReducer} from 'react';
 import './App.css';
 import {Todolist} from './Todolist';
 import {v1} from 'uuid';
 import {addTaskAC, removeTaskAC, TasksReducer} from "./reducers/tasksReducer";
+import {changeFilterAC, FilterReducer} from "./reducers/filterReducer";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -24,7 +25,7 @@ function App() {
         tasksDispatch(addTaskAC(title))
     }
 
-    let [filter, setFilter] = useState<FilterValuesType>("all");
+    let [filter, dispatchFilter] = useReducer(FilterReducer, 'all' )
 
     let tasksForTodolist = tasks;
 
@@ -36,7 +37,8 @@ function App() {
     }
 
     function changeFilter(value: FilterValuesType) {
-        setFilter(value);
+        // setFilter(value);
+        dispatchFilter(changeFilterAC(value))
     }
 
     return (
